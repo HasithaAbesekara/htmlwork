@@ -1,0 +1,207 @@
+<!--2017/ICTS/08-->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>GPA Calculator</title>
+	<style type="text/css">
+		body{
+			margin: 0px;
+			background-color: lightgray;
+		}
+		.hederbarr{
+			position: absolute;
+			width: 100%;
+			height: 50px;
+			background-color: green;
+		}
+		.hedingTop{
+			position: relative;
+			margin: 0px;
+			top: 10px;
+			color: red;
+		}
+		label{
+			color: green;
+			font-size: 24px;
+			font-weight: bold;
+		}
+		.GetInfor{
+			position: absolute;
+			width: 100%;
+			top: 75px;
+		}
+		button{
+			color: blue;
+			font-weight: bold;
+		}
+		.topic{
+			color: blue;
+		}
+		th{
+			color: green;
+		}
+		td{
+			color: blue;
+			font-weight: bold;
+		}
+	</style>
+	<script type="text/javascript">
+		function printInfo(){
+			var year=document.getElementById("setyear").value;
+			var level=Number(document.getElementById("setLevel").value);
+			var semester=Number(document.getElementById("setsem").value);
+			switch(level){
+				case 1:
+					var resultt="First Year - ";
+					break;
+				case 2:
+					var resultt="Second Year - ";
+					break;
+				case 3:
+					var resultt="Third Year - ";
+					break;
+				case 4:
+					var resultt="Fourth Year - ";
+					break;
+			}
+			var fresultt = resultt;
+
+			switch(semester){
+				case 1:
+					var resultt="First Semester - ";
+					break;
+				case 2:
+					var resultt="Second Semester - ";
+					break;
+			}
+			fresultt = fresultt + resultt + year;
+			document.getElementById("WYear").innerHTML=fresultt;
+
+			var subJNomb = Number(document.getElementById("setSubNo").value);
+			var table = "<table border='1' align='center'><tr><th>Subject</th><th>Code</th><th>markss</th></tr>";
+			for(var i=0;i<subJNomb;i++){
+				table=table+"<tr><td><input type='text' id='Subj"+(i+1)+"'></td><td><input type='text' id='SubjC"+(i+1)+"'></td><td><input type='text' id='SubjM"+(i+1)+"'></td></tr>";
+			}
+			table=table+"<tr><td align='center' colspan='3'><button onclick=submitSubject()>Submit Subjects</button></td></tr></table>";
+			document.getElementById("tablearea").innerHTML=table;
+		}
+
+		function submitSubject(){
+			var txte="The Subject Details";
+			document.getElementById("subDetTopic").innerHTML=txte;
+			var table = "<table border='1' align='center'><tr><th>Subject</th><th>Code</th><th>markss</th><th>Grade</th><th>Credits</th><th>GPV for Grade</th><th>GPV for Subjects</th></tr>";
+			var subJNomb = Number(document.getElementById("setSubNo").value);
+			for(var i=0; i<subJNomb; i++){
+				table=table+"<tr><td id='subejname"+(i+1)+"'></td><td id='sc"+(i+1)+"'></td><td id='sm"+(i+1)+"'></td><td id='sgr"+(i+1)+"'></td><td id='scr"+(i+1)+"'></td><td id='GP"+(i+1)+"'></td><td id='GGPA"+(i+1)+"'></td></tr>";
+			}
+
+			table=table+"<tr><td align='center' colspan=7 id='tgpv'></td></tr><tr><td align='center' colspan=7 id='tc'></td></tr><tr><td align='center' colspan=7 id='Fgpa'></td></tr></table>";
+			document.getElementById("finTableArea").innerHTML=table;
+			var tc=0.0;
+			var TGPAS=0.0;
+			for(var x=0; x<subJNomb; x++){
+				var z="SubjM"+(x+1);
+				var marks=Number(document.getElementById(z).value);
+				if(marks>=80){var grade="A+"; var GP=4.3;}
+				else if(marks<80 && marks>=75){var grade="A"; var GP=4;}
+				else if(marks<75 && marks>=70){var grade="A-"; var GP=3.7;}
+				else if(marks<70 && marks>=65){var grade="B+"; var GP=3.3;}
+				else if(marks<65 && marks>=60){var grade="B"; var GP=3;}
+				else if(marks<60 && marks>=55){var grade="B-"; var GP=2.7;}
+				else if(marks<55 && marks>=50){var grade="C+"; var GP=2.3;}
+				else if(marks<50 && marks>=45){var grade="C"; var GP=2;}
+				else if(marks<45 && marks>=40){var grade="C-"; var GP=1.7;}
+				else if(marks<40 && marks>=35){var grade="D+"; var GP=1.3;}
+				else if(marks<35 && marks>=30){var grade="D"; var GP=1;}
+				else if(marks<30 && marks>=25){var grade="D-"; var GP=0;}
+				else if(marks<25){var grade="E"; var GP=0;}
+				z="SubjC"+(x+1);
+				var scode=document.getElementById(z).value;
+				var cr=scode.charAt(3);
+				var GGPA=cr*GP;
+				GGPA=GGPA.toFixed(2);
+				tc=tc+Number(cr);
+				TGPAS=TGPAS+Number(GGPA);
+				z="Subj"+(x+1);
+				var subejname=document.getElementById(z).value;
+				z="subejname"+(x+1);
+				document.getElementById(z).innerHTML=subejname;
+				z="sc"+(x+1);
+				document.getElementById(z).innerHTML=scode;
+				z="sm"+(x+1);
+				document.getElementById(z).innerHTML=marks;
+				z="sgr"+(x+1);
+				document.getElementById(z).innerHTML=grade;
+				z="scr"+(x+1);
+				document.getElementById(z).innerHTML=cr;
+				z="GP"+(x+1);
+				document.getElementById(z).innerHTML=GP;
+				z="GGPA"+(x+1);
+				document.getElementById(z).innerHTML=GGPA;
+				
+			}
+			var r="Total GPA : "+TGPAS;
+			document.getElementById("tgpv").innerHTML=r;
+			r="Total Credits : "+tc;
+			document.getElementById("tc").innerHTML=r;
+			var Fgpa=TGPAS/tc;
+			Fgpa=Fgpa.toFixed(2);
+			r="Final GPA : "+Fgpa;
+			document.getElementById("Fgpa").innerHTML=r;
+		}
+	</script>
+</head>
+<body>
+	<div class="hederbarr">
+		<h2 class="hedingTop" align="center">GPA Calculator</h2>
+	</div>
+	<div class="GetInfor" align="center">
+		<hr>
+		<label for="setyear">Academic Year : </label>
+		<select id="setyear">
+			<option value="2014/2015">2014/2015</option>
+			<option value="2015/2016">2015/2016</option>
+			<option value="2016/2017">2016/2017</option>
+			<option value="2017/2018">2017/2018</option>
+		</select>
+
+		<label for="setLevel">Level : </label>
+		<select id="setLevel">
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+		</select>
+
+		<label for="setsem">Semester : </label>
+		<select id="setsem">
+			<option value="1">1</option>
+			<option value="2">2</option>
+		</select>
+
+		<label for="setSubNo">Number of Subjects : </label>
+		<select id="setSubNo">
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+			<option value="9">9</option>
+			<option value="10">10</option>
+		</select>
+		<button onclick="printInfo()">Add</button>
+		<hr>
+		<h2 class="topic" id="WYear"></h2>
+		<hr>
+		<div id="tablearea"></div>
+		<hr>
+		<h2 class="topic" id=subDetTopic></h2>
+		<hr>
+		<div id="finTableArea"></div>
+	</div>
+</body>
+</html>
